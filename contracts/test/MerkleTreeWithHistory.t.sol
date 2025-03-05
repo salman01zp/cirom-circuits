@@ -78,5 +78,36 @@ contract MockMerkleTreeWithHistoryTest is Test {
 
         assertFalse(rootAfterSecondInsert == rootAfterThirdInsert, "Root should change after third leaf insertion.");
     }
-    
+
+    // Test 4: Verify the root history functionality
+    function test_rootHistory() public {
+        // Insert enough leaves to fill the root history
+        for (uint32 i = 0; i < 30; i++) {
+            bytes32 leaf = keccak256(abi.encodePacked("leaf", i));
+            merkeTree.insertLeaf(leaf);
+        }
+
+        bytes32 latestRoot = merkeTree.getLastRoot();
+        console.logBytes32(latestRoot);
+
+        // Test that we can find the latest root in the history
+        assertTrue(merkeTree.isKnownRoot(latestRoot), "The latest root should be in the root history.");
+
+        // Test that an initial root is in the history.
+        bytes32 initalRoot = merkeTree.roots(29);
+        console.logBytes32(initalRoot);
+        assertTrue(merkeTree.isKnownRoot(initalRoot), "The Initial root should be in the root history.");
+    }
+
+    // function test_insertionWhenFull() public {
+    //     // Insert 2^levels leaves (30 levels -> 2^30 leaves = 1073741824)
+    //     for (uint32 i = 0; i < 2 ** 30; i++) {
+    //         bytes32 leaf = keccak256(abi.encodePacked("leaf", i));
+    //         merkeTree.insertLeaf(leaf);
+    //     }
+    //     // The next insertion should revert
+    //     bytes32 newLeaf = keccak256(abi.encodePacked("leafTooMany"));
+    //     vm.expectRevert("Merkle tree is full. No more leaves can be added");
+    //     merkeTree.insertLeaf(newLeaf);
+    // }
 }
