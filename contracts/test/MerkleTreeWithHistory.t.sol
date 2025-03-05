@@ -36,4 +36,18 @@ contract MockMerkleTreeWithHistoryTest is Test {
         bytes32 expectedRoot = bytes32(hasher.zeros(29));
         assertEq(initialRoot, expectedRoot, "The initial root should match the expected zero value.");
     }
+
+    // Test 2: Insert a single leaf and verify that the root changes
+    function test_insertSingleLeaf() public {
+        bytes32 leaf = keccak256(abi.encodePacked("leaf1")); // A leaf we will insert
+        bytes32 initialRoot = merkeTree.getLastRoot();
+        console.logBytes32(initialRoot);
+
+        merkeTree.insertLeaf(leaf); // Use the wrapper function for test
+        bytes32 newRoot = merkeTree.getLastRoot(); // Get the new root after insertion
+
+        // We expect the new root to be different after inserting a leaf
+        assertFalse(initialRoot == newRoot, "The root should change after inserting a leaf.");
+    }
+
 }
