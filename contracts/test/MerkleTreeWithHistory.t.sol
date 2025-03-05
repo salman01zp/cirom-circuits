@@ -50,4 +50,33 @@ contract MockMerkleTreeWithHistoryTest is Test {
         assertFalse(initialRoot == newRoot, "The root should change after inserting a leaf.");
     }
 
+    // Test 3: Insert multiple leaves and verify the root changes
+    function test_insertMultipleLeaves() public {
+        bytes32 leaf1 = keccak256(abi.encodePacked("leaf1"));
+        bytes32 leaf2 = keccak256(abi.encodePacked("leaf2"));
+        bytes32 leaf3 = keccak256(abi.encodePacked("leaf3"));
+
+        bytes32 initialRoot = merkeTree.getLastRoot();
+        console.logBytes32(initialRoot);
+
+        // Insert leaves one by one
+        merkeTree.insertLeaf(leaf1);
+        bytes32 rootAfterFirstInsert = merkeTree.getLastRoot();
+        console.logBytes32(rootAfterFirstInsert);
+
+        assertFalse(initialRoot == rootAfterFirstInsert, "Root should change after first leaf insertion.");
+
+        merkeTree.insertLeaf(leaf2);
+        bytes32 rootAfterSecondInsert = merkeTree.getLastRoot();
+        console.logBytes32(rootAfterSecondInsert);
+
+        assertFalse(rootAfterFirstInsert == rootAfterSecondInsert, "Root should change after second leaf insertion.");
+
+        merkeTree.insertLeaf(leaf3);
+        bytes32 rootAfterThirdInsert = merkeTree.getLastRoot();
+        console.logBytes32(rootAfterThirdInsert);
+
+        assertFalse(rootAfterSecondInsert == rootAfterThirdInsert, "Root should change after third leaf insertion.");
+    }
+    
 }
