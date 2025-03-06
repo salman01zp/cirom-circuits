@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 /// @title Poseidon Hash Implementation in Solidity
-/// @notice Implements a full-round permutation Poseidon hash for zkSNARK-compatible hashing
 /// @dev Reference: https://eprint.iacr.org/2019/458.pdf
 
 library PoseidonT3 {
