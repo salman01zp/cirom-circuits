@@ -1,4 +1,6 @@
-include "../hasher/poseidon.circom";
+pragma circom 2.1.9;
+
+include "../../hasher/poseidon.circom";
 include "merkle_tree.circom";
 
 // computes Poseidon(nullifier + secret)
@@ -24,14 +26,14 @@ template CommitmentHasher() {
 template Withdraw(levels) {
     signal input root;
     signal input nullifierHash;
-    signal input recipient; // not taking part in any computations
-    signal input relayer;  // not taking part in any computations
-    signal input fee;      // not taking part in any computations
-    signal input refund;   // not taking part in any computations
-    signal private input nullifier;
-    signal private input secret;
-    signal private input pathElements[levels];
-    signal private input pathIndices[levels];
+    signal input recipient;            // not taking part in any computations
+    signal input relayer;              // not taking part in any computations
+    signal input fee;                  // not taking part in any computations
+    signal input refund;               // not taking part in any computations
+    signal input nullifier;            // Private
+    signal input secret;               // Private
+    signal input pathElements[levels]; // Private
+    signal input pathIndices[levels];  // Private
 
     component hasher = CommitmentHasher();
     hasher.nullifier <== nullifier;
@@ -59,4 +61,4 @@ template Withdraw(levels) {
     refundSquare <== refund * refund;
 }
 
-component main = Withdraw(20);
+component main { public [root, nullifierHash, recipient, relayer, fee, refund]} = Withdraw(10);
