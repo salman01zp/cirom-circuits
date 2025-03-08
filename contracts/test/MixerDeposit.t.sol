@@ -39,4 +39,12 @@ contract MixerDepositTest is Test {
         assertEq(token.balanceOf(walletAddress), DENOMINATION * 9);
     }
 
+    function testDoubleDepositFails() public {
+        bytes32 commitment = bytes32(0);
+        vm.prank(walletAddress);
+        mixer.deposit(commitment);
+        vm.expectRevert();
+        mixer.deposit(commitment);
+    }
+
 }
