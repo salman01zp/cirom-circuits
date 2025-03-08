@@ -32,4 +32,11 @@ contract MixerDepositTest is Test {
         token.approve(address(mixer), DENOMINATION * 10);
     }
 
+    function testDeposit() public {
+        bytes32 commitment = bytes32(0);
+        vm.prank(walletAddress);
+        mixer.deposit(commitment);
+        assertEq(token.balanceOf(walletAddress), DENOMINATION * 9);
+    }
+
 }
