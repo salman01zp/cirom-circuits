@@ -46,5 +46,4 @@ contract MixerDepositTest is Test {
         vm.expectRevert();
         mixer.deposit(commitment);
     }
-
 }
