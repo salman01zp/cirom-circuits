@@ -1,2 +1,4 @@
 # Ignore Visual Studio Code config files
 .vscode
+
+node_modules
